@@ -30,3 +30,22 @@ export type ExtratoItem = {
   saida: number;
   saldo: number;
 };
+
+export type BalanceteItem = {
+  conta_id: number;
+  codigo: string;
+  nome: string;
+  tipo: TipoConta;
+  saldo_inicial: number;      // até (de - 1)
+  entrada_periodo: number;    // no período
+  saida_periodo: number;      // no período
+  variacao_periodo: number;   // impacto no saldo (normalizado por tipo)
+  saldo_final: number;        // saldo_inicial + variacao_periodo
+};
+
+export type DreItem = {
+  codigo: string;
+  nome: string;
+  tipo: "receita" | "despesa";
+  valor: number;              // normalizado (receita = cred - deb; despesa = deb - cred)
+};

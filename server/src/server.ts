@@ -4,6 +4,8 @@ import { json } from "./utils.js";
 import { listarContas, criarConta } from "./rotas/contas.js";
 import { criarLancamento } from "./rotas/lancamentos.js";
 import { extrato } from "./rotas/extrato.js";
+import { balancete } from "./rotas/balancete.js";
+import { dre } from "./rotas/dre.js";
 
 const server = createServer(async (req, res) => {
   // CORS
@@ -19,7 +21,7 @@ const server = createServer(async (req, res) => {
     return json(res, 200, { ok: true, ts: Date.now() });
 
   // contas
-  if (req.method === "GET" && url.pathname === "/contas")  return listarContas(req, res);
+  if (req.method === "GET" && url.pathname === "/contas") return listarContas(req, res);
   if (req.method === "POST" && url.pathname === "/contas") return criarConta(req, res);
 
   // lancamentos
@@ -27,6 +29,12 @@ const server = createServer(async (req, res) => {
 
   // extrato
   if (req.method === "GET" && url.pathname === "/extrato") return extrato(req, res);
+
+  // balancete
+  if (req.method === "GET" && url.pathname === "/balancete") return balancete(req, res);
+
+  // dre
+  if (req.method === "GET" && url.pathname === "/dre") return dre(req, res);
 
   // 404
   return json(res, 404, { erro: "Rota não encontrada" });
