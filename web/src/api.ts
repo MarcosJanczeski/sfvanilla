@@ -1,14 +1,3 @@
-// const API = import.meta.env.VITE_API_URL || "http://localhost:3001";
-
-// async function http<T>(path: string, init?: RequestInit): Promise<T> {
-//   const r = await fetch(`${API}${path}`, {
-//     headers: { "content-type": "application/json", ...(init?.headers || {}) },
-//     ...init,
-//   });
-//   if (!r.ok) throw new Error(await r.text());
-//   return r.json() as Promise<T>;
-// }
-// Tenta usar env; se não houver, usa "/api" (passa pelo proxy do Vite)
 const API = (import.meta.env.VITE_API_URL as string | undefined) || "/api";
 
 async function http<T>(path: string, init?: RequestInit): Promise<T> {
@@ -20,18 +9,12 @@ async function http<T>(path: string, init?: RequestInit): Promise<T> {
   return r.json() as Promise<T>;
 }
 
-
 export type TipoConta = "ativo" | "passivo" | "patrimonio" | "receita" | "despesa";
 
 export type BalanceteItem = {
   conta_id: number; codigo: string; nome: string; tipo: TipoConta;
   saldo_inicial: number; entrada_periodo: number; saida_periodo: number;
   variacao_periodo: number; saldo_final: number;
-};
-
-export type BalanceteResp = {
-  intervalo: { de: string | null; ate: string | null };
-  itens: BalanceteItem[];
 };
 
 export type DreItem = { codigo: string; nome: string; tipo: "receita" | "despesa"; valor: number };
@@ -49,7 +32,7 @@ export async function getBalancete(params?: { de?: string; ate?: string; so?: bo
   if (params?.ate) q.set("ate", params.ate);
   if (params?.so) q.set("so_com_movimento", "1");
   const qs = q.toString();
-  return http<BalanceteResp>(`/balancete${qs ? `?${qs}` : ""}`);
+  return http<{ intervalo: any; itens: BalanceteItem[] }>(`/balancete${qs ? `?${qs}` : ""}`);
 }
 
 export async function getDre(de: string, ate: string) {
@@ -66,4 +49,16 @@ export async function postLancamento(input: {
   linhas: { conta_id: number; debito?: number; credito?: number }[];
 }) {
   return http<{ id: number }>(`/lancamentos`, { method: "POST", body: JSON.stringify(input) });
+}
+
+export async function getExtrato(params: {
+  conta_id: number; de?: string; ate?: string; limit?: number; offset?: number;
+}) {
+  const q = new URLSearchParams();
+  q.set("conta_id", String(params.conta_id));
+  if (params.de) q.set("de", params.de);
+  if (params.ate) q.set("ate", params.ate);
+  if (params.limit) q.set("limit", String(params.limit));
+  if (params.offset) q.set("offset", String(params.offset));
+  return http<any>(`/extrato?${q.toString()}`);
 }

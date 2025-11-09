@@ -1,96 +1,51 @@
 :root {
-  --gap: 12px;
-  --radius: 12px;
-  --bg: #f6f7f9;
-  --card: #fff;
-  --text: #222;
-  --muted: #666;
-  --brand: #0ea5e9;
-  --danger: #b42318;
-  --success: #1a7f37;
+  --gap: 12px; --radius: 12px;
+  --bg: #f6f7f9; --card: #fff; --text: #222; --muted: #666;
+  --brand: #0ea5e9; --danger: #b42318; --success: #1a7f37;
 }
-
-/* RESET mínimo */
 * { box-sizing: border-box; }
 html, body, #root { height: 100%; }
-html { -webkit-text-size-adjust: 100%; }
 body {
-  margin: 0;
+  margin: 0; background: var(--bg); color: var(--text);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  background: var(--bg); color: var(--text);
-  padding-bottom: calc(56px + env(safe-area-inset-bottom)); /* espaço p/ bottom nav */
+  padding-bottom: calc(56px + env(safe-area-inset-bottom));
 }
-
 .app { max-width: 1040px; margin: 0 auto; padding: 8px 12px; }
-
 h1,h2,h3 { margin: 0 0 12px; }
-.card {
-  background: var(--card);
-  border-radius: var(--radius);
-  padding: 14px;
-  box-shadow: 0 1px 4px rgba(0,0,0,.06);
-}
-
-.row { display: flex; gap: var(--gap); align-items: center; }
-.grid { display: grid; gap: var(--gap); }
-
-.table { width: 100%; border-collapse: collapse; }
-.table th, .table td { padding: 8px; border-top: 1px solid #eee; }
-.right { text-align: right; }
+.card { background: var(--card); border-radius: var(--radius); padding: 14px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+.row { display:flex; gap:var(--gap); align-items:center; }
+.grid { display:grid; gap:var(--gap); }
+.table { width:100%; border-collapse:collapse; }
+.table th,.table td { padding:8px; border-top:1px solid #eee; }
+.right { text-align:right; }
 .muted { color: var(--muted); }
 .badge { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; background:#eef; color:#334; }
 
 input, select, button {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  font-size: 16px; /* evita zoom no iOS */
-  min-height: 44px; /* alvo confortável */
+  width:100%; padding:12px; border-radius:10px; border:1px solid #ddd;
+  font-size:16px; min-height:44px;
 }
+button { background:var(--brand); color:#fff; border:none; font-weight:600; cursor:pointer; }
+button:disabled { opacity:.6; cursor:not-allowed; }
+.field { display:grid; gap:6px; }
+.fields { display:grid; gap:12px; }
 
-button {
-  background: var(--brand);
-  color: #fff;
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-}
-button:disabled { opacity: .6; cursor: not-allowed; }
-
-/* Grupos de campos empilhados */
-.field { display: grid; gap: 6px; }
-.fields { display: grid; gap: 12px; }
-
-/* Bottom Nav (mobile) */
 .bottom-nav {
-  position: fixed; left: 0; right: 0; bottom: 0;
-  padding: 8px calc(12px + env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) calc(12px + env(safe-area-inset-left));
-  background: #fff;
-  border-top: 1px solid #eee;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-  z-index: 50;
+  position:fixed; left:0; right:0; bottom:0;
+  padding:8px calc(12px + env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) calc(12px + env(safe-area-inset-left));
+  background:#fff; border-top:1px solid #eee;
+  display:grid; grid-template-columns:repeat(3,1fr); gap:8px; z-index:50;
 }
-.bottom-nav button {
-  background: #f2f4f7;
-  color: #111;
-}
+.bottom-nav button { background:#f2f4f7; color:#111; }
 
-/* Botão Flutuante */
 .fab {
-  position: fixed;
-  right: calc(16px + env(safe-area-inset-right));
-  bottom: calc(72px + env(safe-area-inset-bottom)); /* acima da bottom nav */
-  border-radius: 999px;
-  padding: 14px 18px;
-  font-size: 16px;
-  background: var(--brand);
-  color: #fff;
-  box-shadow: 0 8px 20px rgba(0,0,0,.2);
-  z-index: 60;
+  position:fixed; right:calc(16px + env(safe-area-inset-right));
+  bottom:calc(72px + env(safe-area-inset-bottom));
+  border-radius:999px; padding:14px 18px; font-size:16px;
+  background:var(--brand); color:#fff; box-shadow:0 8px 20px rgba(0,0,0,.2);
+  z-index:60;
 }
 
-/* Layout desktop melhora a densidade */
 @media (min-width: 768px) {
   .app { padding: 16px; }
   .grid.cols-2 { grid-template-columns: 1fr 1fr; }

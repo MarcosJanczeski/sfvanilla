@@ -8,8 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      // Habilita SW também no dev (útil para testar cache/offline)
-      devOptions: { enabled: true, type: "module" },
+      devOptions: { enabled: false }, // pode ligar p/ testar SW: true
       includeAssets: ["icons/icon-192.png", "icons/icon-512.png"],
       manifest: {
         name: "SF Vanilla",
@@ -25,33 +24,23 @@ export default defineConfig({
       },
       workbox: {
         runtimeCaching: [
-          // cache do app shell
-          {
-            urlPattern: ({ url }) => url.origin === self.location.origin,
-            handler: "StaleWhileRevalidate",
-          },
-          // cache das chamadas à API (quando usar proxy /api)
-          {
-            urlPattern: ({ url }) => url.pathname.startsWith("/api"),
-            handler: "NetworkFirst",
-            options: { cacheName: "api-cache", networkTimeoutSeconds: 4 },
-          }
+          { urlPattern: ({ url }) => url.origin === self.location.origin, handler: "StaleWhileRevalidate" },
+          { urlPattern: ({ url }) => url.pathname.startsWith("/api"), handler: "NetworkFirst", options: { cacheName: "api-cache", networkTimeoutSeconds: 4 } }
         ]
       }
     })
   ],
   server: {
-    host: "0.0.0.0",     // expõe na rede local
+    host: "0.0.0.0",
     port: 5173,
     strictPort: true,
     cors: true,
-    allowedHosts: true,
-    // Proxy: celular fala com /api e o Vite redireciona para a API local (3001)
+    allowedHosts: true, // libera trycloudflare/ngrok/etc
     proxy: {
       "/api": {
         target: "http://localhost:3001",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, "")
+        rewrite: (p) => p.replace(/^\/api/, "")
       }
     }
   }
