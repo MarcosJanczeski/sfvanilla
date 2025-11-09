@@ -1,0 +1,29 @@
+:root { --gap: 12px; --radius: 10px; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background: #f6f7f9; color: #222; }
+.app { max-width: 1040px; margin: 24px auto; padding: 0 16px; }
+h1,h2,h3 { margin: 0 0 12px; }
+.card { background: #fff; border-radius: var(--radius); padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+.grid { display: grid; gap: var(--gap); }
+.grid.cols-2 { grid-template-columns: 1fr 1fr; }
+.grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td { padding: 8px; border-top: 1px solid #eee; }
+.muted { color: #666; }
+.right { text-align: right; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; background:#eef; color:#334; }
+input, select, button { padding: 8px; border-radius: 8px; border: 1px solid #ddd; }
+button { cursor: pointer; }
+.row { display:flex; gap: var(--gap); align-items: center; }
+section + section { margin-top: 16px; }
+hr { border: none; border-top: 1px solid #eee; margin: 16px 0; }
+.notice { padding: 8px 12px; background: #fff3cd; border: 1px solid #ffeeba; color: #856404; border-radius: 8px; }
+.success { color: #1a7f37; }
+.danger  { color: #b42318; }
+
+@media (max-width: 640px) {
+  .app { margin: 8px auto; padding: 0 10px; }
+  .grid.cols-3, .grid.cols-2 { grid-template-columns: 1fr; }
+  button, input, select { min-height: 44px; font-size: 16px; } /* evita zoom iOS */
+  header .row { flex-wrap: wrap; gap: 6px; }
+}
