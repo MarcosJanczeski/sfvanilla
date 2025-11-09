@@ -4,9 +4,6 @@ import type { Conta } from "../api";
 import { enqueue, flush, onReonline } from "../offline";
 
 const hojeISO = new Date().toISOString().slice(0, 10);
-function fmt(v: number) {
-  return v.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
-}
 
 export default function NovoLancamento() {
   const [contas, setContas] = useState<Conta[]>([]);
