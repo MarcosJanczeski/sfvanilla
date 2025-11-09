@@ -83,137 +83,95 @@ export default function NovoLancamento() {
   return (
     <section className="card">
       <h2>Novo Lançamento</h2>
-      <form onSubmit={salvar} className="grid" style={{ gap: 12 }}>
-        <div className="row" style={{ flexWrap: "wrap", gap: 8 }}>
-          <label className="muted">Data</label>
-          <input type="date" value={data} onChange={(e) => setData(e.target.value)} />
 
-          <label className="muted">Tipo</label>
-          <select value={tipo} onChange={(e) => setTipo(e.target.value as any)}>
-            <option value="despesa">Despesa</option>
-            <option value="receita">Receita</option>
-            <option value="transferencia">Transferência</option>
-          </select>
+      <form onSubmit={salvar} className="fields">
+        <div className="fields">
+          <div className="field">
+            <div className="muted">Data</div>
+            <input type="date" value={data} onChange={(e) => setData(e.target.value)} />
+          </div>
 
-          <label className="muted">Valor</label>
-          <input
-            id="valor"
-            type="number"
-            inputMode="decimal"
-            step="0.01"
-            value={valor || ""}
-            autoFocus
-            onChange={(e) => setValor(Number(e.target.value))}
-          />
+          <div className="field">
+            <div className="muted">Tipo</div>
+            <select value={tipo} onChange={(e) => setTipo(e.target.value as any)}>
+              <option value="despesa">Despesa</option>
+              <option value="receita">Receita</option>
+              <option value="transferencia">Transferência</option>
+            </select>
+          </div>
+
+          <div className="field">
+            <div className="muted">Valor</div>
+            <input id="valor" type="number" inputMode="decimal" step="0.01"
+              value={valor || ""} autoFocus
+              onChange={(e) => setValor(Number(e.target.value))} />
+          </div>
         </div>
 
-        <div className="row" style={{ flexWrap: "wrap", gap: 12 }}>
-          {tipo === "despesa" && (
-            <>
-              <div>
-                <div className="muted">Categoria (Despesa)</div>
-                <select
-                  value={categoriaId}
-                  onChange={(e) => setCategoriaId(Number(e.target.value))}
-                >
-                  <option value="">Selecione…</option>
-                  {contasDespesa.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.codigo} — {c.nome}
-                    </option>
-                  ))}
-                </select>
-              </div>
+        {tipo === "despesa" && (
+          <div className="fields">
+            <div className="field">
+              <div className="muted">Categoria (Despesa)</div>
+              <select value={categoriaId} onChange={(e) => setCategoriaId(Number(e.target.value))}>
+                <option value="">Selecione…</option>
+                {contasDespesa.map(c => <option key={c.id} value={c.id}>{c.codigo} — {c.nome}</option>)}
+              </select>
+            </div>
+            <div className="field">
+              <div className="muted">Pago com (Ativo)</div>
+              <select value={meioId} onChange={(e) => setMeioId(Number(e.target.value))}>
+                <option value="">Selecione…</option>
+                {contasAtivo.map(c => <option key={c.id} value={c.id}>{c.codigo} — {c.nome}</option>)}
+              </select>
+            </div>
+          </div>
+        )}
 
-              <div>
-                <div className="muted">Pago com (Ativo)</div>
-                <select value={meioId} onChange={(e) => setMeioId(Number(e.target.value))}>
-                  <option value="">Selecione…</option>
-                  {contasAtivo.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.codigo} — {c.nome}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </>
-          )}
+        {tipo === "receita" && (
+          <div className="fields">
+            <div className="field">
+              <div className="muted">Origem (Receita)</div>
+              <select value={categoriaId} onChange={(e) => setCategoriaId(Number(e.target.value))}>
+                <option value="">Selecione…</option>
+                {contasReceita.map(c => <option key={c.id} value={c.id}>{c.codigo} — {c.nome}</option>)}
+              </select>
+            </div>
+            <div className="field">
+              <div className="muted">Recebido em (Ativo)</div>
+              <select value={meioId} onChange={(e) => setMeioId(Number(e.target.value))}>
+                <option value="">Selecione…</option>
+                {contasAtivo.map(c => <option key={c.id} value={c.id}>{c.codigo} — {c.nome}</option>)}
+              </select>
+            </div>
+          </div>
+        )}
 
-          {tipo === "receita" && (
-            <>
-              <div>
-                <div className="muted">Origem (Receita)</div>
-                <select
-                  value={categoriaId}
-                  onChange={(e) => setCategoriaId(Number(e.target.value))}
-                >
-                  <option value="">Selecione…</option>
-                  {contasReceita.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.codigo} — {c.nome}
-                    </option>
-                  ))}
-                </select>
-              </div>
+        {tipo === "transferencia" && (
+          <div className="fields">
+            <div className="field">
+              <div className="muted">Origem (Ativo)</div>
+              <select value={meioId} onChange={(e) => setMeioId(Number(e.target.value))}>
+                <option value="">Selecione…</option>
+                {contasAtivo.map(c => <option key={c.id} value={c.id}>{c.codigo} — {c.nome}</option>)}
+              </select>
+            </div>
+            <div className="field">
+              <div className="muted">Destino (Ativo)</div>
+              <select value={categoriaId} onChange={(e) => setCategoriaId(Number(e.target.value))}>
+                <option value="">Selecione…</option>
+                {contasAtivo.map(c => <option key={c.id} value={c.id}>{c.codigo} — {c.nome}</option>)}
+              </select>
+            </div>
+          </div>
+        )}
 
-              <div>
-                <div className="muted">Recebido em (Ativo)</div>
-                <select value={meioId} onChange={(e) => setMeioId(Number(e.target.value))}>
-                  <option value="">Selecione…</option>
-                  {contasAtivo.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.codigo} — {c.nome}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </>
-          )}
-
-          {tipo === "transferencia" && (
-            <>
-              <div>
-                <div className="muted">Origem (Ativo)</div>
-                <select value={meioId} onChange={(e) => setMeioId(Number(e.target.value))}>
-                  <option value="">Selecione…</option>
-                  {contasAtivo.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.codigo} — {c.nome}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <div className="muted">Destino (Ativo)</div>
-                <select
-                  value={categoriaId}
-                  onChange={(e) => setCategoriaId(Number(e.target.value))}
-                >
-                  <option value="">Selecione…</option>
-                  {contasAtivo.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.codigo} — {c.nome}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </>
-          )}
-        </div>
-
-        <div>
+        <div className="field">
           <div className="muted">Histórico</div>
-          <input
-            placeholder="Ex.: Mercado, Salário, Transferência..."
-            value={historico}
-            onChange={(e) => setHistorico(e.target.value)}
-            style={{ width: "100%" }}
-          />
+          <input placeholder="Ex.: Mercado, Salário, Transferência..."
+            value={historico} onChange={(e) => setHistorico(e.target.value)} />
         </div>
 
-        <div className="row" style={{ justifyContent: "space-between" }}>
-          <div className="muted">Débitos = Créditos garantido ✅</div>
+        <div className="row" style={{ gap: 8 }}>
           <button type="submit">Salvar</button>
         </div>
 

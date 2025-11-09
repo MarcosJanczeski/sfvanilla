@@ -1,4 +1,15 @@
-const API = import.meta.env.VITE_API_URL || "http://localhost:3001";
+// const API = import.meta.env.VITE_API_URL || "http://localhost:3001";
+
+// async function http<T>(path: string, init?: RequestInit): Promise<T> {
+//   const r = await fetch(`${API}${path}`, {
+//     headers: { "content-type": "application/json", ...(init?.headers || {}) },
+//     ...init,
+//   });
+//   if (!r.ok) throw new Error(await r.text());
+//   return r.json() as Promise<T>;
+// }
+// Tenta usar env; se não houver, usa "/api" (passa pelo proxy do Vite)
+const API = (import.meta.env.VITE_API_URL as string | undefined) || "/api";
 
 async function http<T>(path: string, init?: RequestInit): Promise<T> {
   const r = await fetch(`${API}${path}`, {
@@ -8,6 +19,7 @@ async function http<T>(path: string, init?: RequestInit): Promise<T> {
   if (!r.ok) throw new Error(await r.text());
   return r.json() as Promise<T>;
 }
+
 
 export type TipoConta = "ativo" | "passivo" | "patrimonio" | "receita" | "despesa";
 
