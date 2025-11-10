@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { getBalancete, getDre, type BalanceteItem } from "../api";
+import { num, money } from "../lib/num";
 
 const hoje = new Date();
 const yyyy = hoje.getFullYear();
 const mm = String(hoje.getMonth() + 1).padStart(2, "0");
 const dePadrao = `${yyyy}-${mm}-01`;
 const atePadrao = `${yyyy}-${mm}-${new Date(yyyy, hoje.getMonth()+1, 0).getDate().toString().padStart(2,"0")}`;
-const fmt = (v:number)=>v.toLocaleString("pt-BR",{ style:"currency", currency:"BRL" });
 
 export default function VisaoGeral() {
   const [de, setDe] = useState(dePadrao);
@@ -33,7 +33,7 @@ export default function VisaoGeral() {
   useEffect(() => { carregar(); }, []);
 
   const saldoAtivo = useMemo(() =>
-    bal.filter(i => i.tipo === "ativo").reduce((s, i) => s + i.saldo_final, 0), [bal]);
+    bal.filter(i => i.tipo === "ativo").reduce((s, i) => s + num(i.saldo_final), 0), [bal]);
 
   const alerta = resultado < 0 || (receitas > 0 && despesas >= receitas);
 
@@ -61,21 +61,21 @@ export default function VisaoGeral() {
           <div className="grid cols-3">
             <div className="card" style={{ background: "#e0f7fa" }}>
               <div className="muted">Saldo de Ativos</div>
-              <h2>{fmt(saldoAtivo)}</h2>
+              <h2>{money(saldoAtivo)}</h2>
             </div>
             <div className="card" style={{ background: "#f1f5f9" }}>
               <div className="muted">Receitas (mês)</div>
-              <h2 style={{ color: "#1a7f37" }}>{fmt(receitas)}</h2>
+              <h2 style={{ color: "#1a7f37" }}>{money(receitas)}</h2>
             </div>
             <div className="card" style={{ background: "#fef2f2" }}>
               <div className="muted">Despesas (mês)</div>
-              <h2 style={{ color: "#b42318" }}>{fmt(despesas)}</h2>
+              <h2 style={{ color: "#b42318" }}>{money(despesas)}</h2>
             </div>
           </div>
 
           <div className="card" style={{ background: "#eef6ff" }}>
             <div className="muted">Resultado do mês</div>
-            <h2 style={{ color: resultado >= 0 ? "#1a7f37" : "#b42318" }}>{fmt(resultado)}</h2>
+            <h2 style={{ color: resultado >= 0 ? "#1a7f37" : "#b42318" }}>{money(resultado)}</h2>
           </div>
 
           {alerta && (

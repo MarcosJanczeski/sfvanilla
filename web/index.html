@@ -11,10 +11,29 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
   <title>web</title>
+  <style>
+    html,
+    body,
+    #root {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: #f6f7f9;
+      color: #111;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    .safe {
+      padding: 16px;
+    }
+  </style>
+
 </head>
 
 <body>
-  <div id="root"></div>
+  <div id="root"><div class="safe">Carregando app…</div></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
 

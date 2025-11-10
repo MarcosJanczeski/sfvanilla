@@ -1,4 +1,6 @@
-const API = (import.meta.env.VITE_API_URL as string | undefined) || "/api";
+// Usa VITE_API_URL só se for uma URL absoluta (http/https). Senão, força "/api".
+const env = (import.meta.env.VITE_API_URL as string | undefined) || "";
+const API = /^https?:\/\//.test(env) ? env : "/api";
 
 async function http<T>(path: string, init?: RequestInit): Promise<T> {
   const r = await fetch(`${API}${path}`, {
@@ -8,6 +10,8 @@ async function http<T>(path: string, init?: RequestInit): Promise<T> {
   if (!r.ok) throw new Error(await r.text());
   return r.json() as Promise<T>;
 }
+
+export { http }; // e mantenha seus exports (getBalancete, getDre, etc.)
 
 export type TipoConta = "ativo" | "passivo" | "patrimonio" | "receita" | "despesa";
 
