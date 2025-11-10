@@ -1,6 +1,13 @@
 import dotenv from "dotenv";
-import { Pool, QueryResult, QueryResultRow } from "pg";
+import { Pool, QueryResult, QueryResultRow, types } from "pg";
 dotenv.config();
+
+// Converte NUMERIC/DECIMAL (OID 1700) para number
+types.setTypeParser(1700, (val) => (val === null ? null as any : parseFloat(val)));
+
+// (opcional) Converte BIGINT/INT8 (OID 20) para number
+// ⚠️ cuidado com overflow se usar valores > Number.MAX_SAFE_INTEGER
+types.setTypeParser(20, (val) => (val === null ? null as any : parseInt(val, 10)));
 
 export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
