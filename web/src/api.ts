@@ -56,13 +56,19 @@ export async function postLancamento(input: {
 }
 
 export async function getExtrato(params: {
-  conta_id: number; de?: string; ate?: string; limit?: number; offset?: number;
+  conta_id: number;
+  de?: string;
+  ate?: string;
+  limit?: number;
+  offset?: number;
 }) {
   const q = new URLSearchParams();
   q.set("conta_id", String(params.conta_id));
+  q.set("contaId", String(params.conta_id)); // compat: algumas APIs usam camelCase
   if (params.de) q.set("de", params.de);
   if (params.ate) q.set("ate", params.ate);
   if (params.limit) q.set("limit", String(params.limit));
   if (params.offset) q.set("offset", String(params.offset));
   return http<any>(`/extrato?${q.toString()}`);
 }
+

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getContas, postLancamento } from "../api";
 import type { Conta } from "../api";
 import { enqueue, flush, onReonline } from "../offline";
-
+import MoneyInput from "../components/MoneyInput";
 const hojeISO = new Date().toISOString().slice(0, 10);
 
 export default function NovoLancamento() {
@@ -102,9 +102,11 @@ export default function NovoLancamento() {
 
           <div className="field">
             <div className="muted">Valor</div>
-            <input id="valor" type="number" inputMode="decimal" step="0.01"
-              value={valor || ""} autoFocus
-              onChange={(e) => setValor(Number(e.target.value))} />
+            <MoneyInput
+            value={valor}
+            onChange={(v) => setValor(v)}
+            autoFocus
+          />
           </div>
         </div>
 

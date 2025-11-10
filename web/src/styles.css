@@ -2,54 +2,114 @@
   --gap: 12px; --radius: 12px;
   --bg: #f6f7f9; --card: #fff; --text: #222; --muted: #666;
   --brand: #0ea5e9; --danger: #b42318; --success: #1a7f37;
+
+  /* 👇 NOVO: alturas/reservas para mobile */
+  --nav-h: 64px;            /* altura da bottom nav */
+  --fab-gap: 16px;          /* distância do FAB até a nav */
+  --fab-h: 48px;            /* altura aproximada do FAB */
 }
-* { box-sizing: border-box; }
+
 html, body, #root { height: 100%; }
 body {
   margin: 0; background: var(--bg); color: var(--text);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  padding-bottom: calc(56px + env(safe-area-inset-bottom));
+
+  /* 👇 antes era fixo; agora usa variável */
+  padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom));
 }
-.app { max-width: 1040px; margin: 0 auto; padding: 8px 12px; }
-h1,h2,h3 { margin: 0 0 12px; }
-.card { background: var(--card); border-radius: var(--radius); padding: 14px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
-.row { display:flex; gap:var(--gap); align-items:center; }
-.grid { display:grid; gap:var(--gap); }
-.table { width:100%; border-collapse:collapse; }
-.table th,.table td { padding:8px; border-top:1px solid #eee; }
-.right { text-align:right; }
-.muted { color: var(--muted); }
-.badge { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; background:#eef; color:#334; }
+
+/* --- BASE: mantém estilo uniforme mesmo em rows --- */
+input, select, button, textarea {
+  width: 100%;
+  min-height: 44px;
+  font-size: 16px;
+  line-height: 1.3;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+button {
+  background: var(--brand);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
 
 input, select, button {
-  width:100%; padding:12px; border-radius:10px; border:1px solid #ddd;
-  font-size:16px; min-height:44px;
+  width: 100%;
+  min-height: 44px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
 }
-button { background:var(--brand); color:#fff; border:none; font-weight:600; cursor:pointer; }
-button:disabled { opacity:.6; cursor:not-allowed; }
-.field { display:grid; gap:6px; }
-.fields { display:grid; gap:12px; }
+
+input[type="text"][inputmode="numeric"] { text-align: right; }
+
+/* fields empilha os campos com respiro */
+.field { display: grid; gap: 6px; }
+.fields { display: grid; gap: 12px; }
+
+/* --- ROW: não deixa input/btn “esmagar” --- */
+.row { display: flex; gap: var(--gap); align-items: center; flex-wrap: wrap; }
+.row > * { flex: 1 1 auto; min-width: 120px; }  /* itens crescem e quebram linha */
+
+/* botões em .row com largura mínima confortável */
+.row > button { flex: 0 0 auto; min-width: 120px; }
+
+/* cartões sempre com folga inferior, evitando encostar na nav */
+.card { margin-bottom: 12px; }
+
+/* (opcional) inputs/btns secundários mais “claros” */
+button.secondary {
+  background: #f2f4f7;
+  color: #111;
+  border: 1px solid #e5e7eb;
+}
+
+
+.app { max-width: 1040px; margin: 0 auto; padding: 8px 12px; }
+
+/* 👇 NOVO: garante área rolável abaixo do conteúdo
+   para não ficar nada escondido atrás da nav ou do FAB */
+.content {
+  padding-bottom: calc(
+    var(--nav-h)              /* espaço da bottom nav */
+    + var(--fab-h)            /* altura do FAB */
+    + var(--fab-gap)          /* gap entre FAB e nav */
+    + 24px                    /* folga extra */
+    + env(safe-area-inset-bottom)
+  );
+}
+
+.card { background: var(--card); border-radius: 12px; padding: 14px; box-shadow: 0 1px 4px rgba(0,0,0,.06); margin-bottom: 12px; }
 
 .bottom-nav {
-  position:fixed; left:0; right:0; bottom:0;
-  padding:8px calc(12px + env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) calc(12px + env(safe-area-inset-left));
-  background:#fff; border-top:1px solid #eee;
-  display:grid; grid-template-columns:repeat(3,1fr); gap:8px; z-index:50;
+  position: fixed; left: 0; right: 0; bottom: 0;
+  /*height: calc(var(--nav-h) + env(safe-area-inset-bottom));*/
+  padding: 8px 12px calc(8px + env(safe-area-inset-bottom)) 12px;
+  background: #fff; border-top: 1px solid #eee;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  z-index: 50;
 }
-.bottom-nav button { background:#f2f4f7; color:#111; }
 
 .fab {
-  position:fixed; right:calc(16px + env(safe-area-inset-right));
-  bottom:calc(72px + env(safe-area-inset-bottom));
-  border-radius:999px; padding:14px 18px; font-size:16px;
-  background:var(--brand); color:#fff; box-shadow:0 8px 20px rgba(0,0,0,.2);
-  z-index:60;
+  position: fixed;
+  width: 90%;
+  /*right: env(safe-area-inset-right);/*calc(16px + env(safe-area-inset-right));*/
+  bottom: calc(var(--nav-h) + var(--fab-gap) + env(safe-area-inset-bottom));
+  border-radius: 999px;
+  padding: 14px 18px;
+  font-size: 16px;
+  background: var(--brand); color: #fff;
+  box-shadow: 0 8px 20px rgba(0,0,0,.2);
+  z-index: 60;
 }
 
+/* Quando a tela for grande (desktop), escondemos a bottom nav e reduzimos o padding extra */
 @media (min-width: 768px) {
-  .app { padding: 16px; }
-  .grid.cols-2 { grid-template-columns: 1fr 1fr; }
-  .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .content { padding-bottom: 24px; }
   .bottom-nav { display: none; }
   .fab { bottom: 24px; right: 24px; }
 }

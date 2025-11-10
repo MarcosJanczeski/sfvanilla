@@ -12,9 +12,12 @@ export default function App() {
         <h1>SF Vanilla</h1>
       </header>
 
-      {page === "visao"   && <VisaoGeral />}
-      {page === "novo"    && <NovoLancamento />}
-      {page === "extrato" && <Extrato />}
+      {/* 👇 conteúdo com padding-bottom suficiente */}
+      <main className="content">
+        {page === "visao"   && <VisaoGeral />}
+        {page === "novo"    && <NovoLancamento />}
+        {page === "extrato" && <Extrato />}
+      </main>
 
       <nav className="bottom-nav">
         <button onClick={() => setPage("visao")}>Visão</button>
@@ -22,11 +25,11 @@ export default function App() {
         <button onClick={() => setPage("novo")}>Lançar</button>
       </nav>
 
-      {page !== "novo" && (
+      {/*page !== "novo" && (
         <button className="fab" aria-label="Novo lançamento" onClick={() => setPage("novo")}>
           + Lançar
         </button>
-      )}
+      )*/}
     </div>
   );
 }
