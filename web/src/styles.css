@@ -113,3 +113,136 @@ button.secondary {
   .bottom-nav { display: none; }
   .fab { bottom: 24px; right: 24px; }
 }
+
+/* === Drawer (menu lateral) === */
+.drawer-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,.35);
+  transition: opacity .18s ease; z-index: 80;
+}
+
+.drawer {
+  position: fixed; top: 0; left: 0; bottom: 0; width: min(86vw, 320px);
+  background: #fff; z-index: 90; box-shadow: 2px 0 24px rgba(0,0,0,.18);
+  display: grid; grid-template-rows: auto 1fr auto;
+  transition: transform .18s ease;
+}
+
+.drawer-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px; border-bottom: 1px solid #eee;
+}
+
+.drawer-nav {
+  padding: 8px;
+  display: grid; gap: 6px;
+}
+
+.drawer-item {
+  text-align: left; padding: 12px 12px; border-radius: 10px;
+  background: #f6f7f9; border: 1px solid #eceff3; font-weight: 600;
+}
+.drawer-item.active {
+  background: #e6f3fb; border-color: #bfe6fb;
+}
+
+.drawer-footer {
+  padding: 12px 14px; border-top: 1px solid #eee;
+}
+
+.icon-btn {
+  border: 1px solid #e5e7eb; background: #f8fafc; border-radius: 10px;
+  padding: 8px 10px; cursor: pointer;
+}
+
+/* Cabeçalho do Drawer: título à esquerda, 'X' compacto à direita */
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Alguns temas do app deixam todo <button> com width:100%;
+   aqui nós anulamos isso só para o botão do cabeçalho do drawer */
+.drawer-header button,
+.drawer-header .icon-btn {
+  width: auto !important;
+  min-width: 0;
+  flex: 0 0 auto;
+  padding: 6px 8px;
+}
+
+.drawer-header strong {
+  font-size: 1.125rem; /* 18px aprox — maior e mais legível */
+  font-weight: 700;
+}
+
+
+/* header hambúrguer */
+.hamburger {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  width: auto;
+  height: auto;
+}
+.hamburger svg {
+  stroke: #333;
+  stroke-width: 2.2;
+  transition: transform 0.25s ease, stroke 0.2s ease;
+}
+.hamburger:hover svg {
+  stroke: #0077cc;
+}
+.hamburger.open svg {
+  transform: rotate(90deg);
+}
+
+/* Drawer: fundo e cor de texto com bom contraste */
+.drawer {
+  background: #ffffff;
+  color: #111;          /* texto escuro para máxima leitura */
+  opacity: 1;           /* garante sem transparência acidental */
+}
+
+/* Itens do menu com contraste melhor */
+.drawer-nav { 
+  padding: 8px;
+  display: grid;
+  gap: 6px;
+  font-size: 1rem;      /* leitura confortável */
+}
+
+.drawer-item {
+  text-align: left;
+  padding: 12px 12px;
+  border-radius: 10px;
+  background: #f9fafb;  /* um pouco mais claro que antes */
+  border: 1px solid #e5e7eb;
+  font-weight: 600;
+  color: #111;
+}
+
+.drawer-item.active {
+  background: #e6f0ff;  /* realce suave */
+  border-color: #c7d2fe;
+}
+
+/* Backdrop um pouco menos escuro (era .35) para não "pesar" a leitura */
+.drawer-backdrop {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+
+/* Em telas maiores, podemos esconder a bottom-nav e usar só o Drawer + header */
+@media (min-width: 768px) {
+  .bottom-nav { display: none; }
+  .content { padding-bottom: 24px; }
+}
